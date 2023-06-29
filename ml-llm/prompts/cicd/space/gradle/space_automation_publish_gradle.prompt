@@ -1,0 +1,21 @@
+Description:
+Create .space.kts file for Space Automation CI for gradle project.
+Use container image "gradle".
+Build and run tests using gradle.
+Publish package to maven repository.
+Set env variable "USERNAME" from space parameters "repo_user".
+Set env variable "USERNAME" from space secrets "repo_password".
+Set env variable "REPOSITORY_URL" from space secrets "repo_url".
+Code:
+job("Build and publish") {
+    container(displayName = "Run publish script", image = "gradle") {
+        env["REPOSITORY_URL"] = Params("repo_url")
+        env["USERNAME"] = Params("repo_user")
+        env["PASSWORD"] = Secrets("repo_password")
+
+        kotlinScript { api ->
+            api.gradle("build")
+            api.gradle("publish")
+        }
+    }
+}

@@ -1,0 +1,16 @@
+Description:
+Create .space.kts file for Space Automation CI.
+Use 'Default worker pool' to run job.
+Build and push docker image to space repository with base tag "mycompany.registry.jetbrains.space/p/prjkey/mydocker/myimage" with latest execution number and "latest" suffixes.
+Code:
+job("Build and push Docker to space repo") {
+    host("Build and Push Docker") {
+        dockerBuildPush {
+            val spaceRepo = "mycompany.registry.jetbrains.space/p/prjkey/mydocker/myimage"
+            tags {
+                +"$spaceRepo:0.${"$"}JB_SPACE_EXECUTION_NUMBER"
+                +"$spaceRepo:latest"
+            }
+        }
+    }
+}

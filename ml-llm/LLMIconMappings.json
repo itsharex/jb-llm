@@ -1,0 +1,20 @@
+{
+  "icons": {
+    "expui": {
+      "chat": {
+        "send.svg": "icons/chat/send.svg"
+      },
+      "aiAssistant.svg": "icons/aiAssistant.svg",
+      "aiAssistantToolWindow.svg": "icons/aiAssistantToolWindow.svg",
+      "Dislike.svg": "icons/Dislike.svg",
+      "Like.svg": "icons/Like.svg",
+      "sendToEditor.svg": "icons/sendToEditor.svg",
+      "login": {
+        "answerQ.svg": "icons/login/answerQ.svg",
+        "commit.svg": "icons/login/commit.svg",
+        "explainCode.svg": "icons/login/explainCode.svg",
+        "listFiles.svg": "icons/login/listFiles.svg"
+      }
+    }
+  }
+}

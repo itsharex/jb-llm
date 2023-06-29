@@ -1,0 +1,16 @@
+Description:
+Create .space.kts file for Space Automation CI for yarn project.
+Use container with image "node:14".
+Build project.
+Run 'pc:build' command.
+Code:
+job("Build PyCharm Guide") {
+    container("node:14") {
+        shellScript {
+            content = """
+                yarn install
+                yarn run pc:build
+            """.trimIndent()
+        }
+    }
+}

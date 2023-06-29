@@ -1,0 +1,16 @@
+/*   */ package ai.grazie.client.ktor;
+/*   */ 
+/*   */ @Metadata(mv = {1, 7, 0}, k = 2, xi = 48, d1 = {"\000\016\n\000\n\002\030\002\n\002\030\002\n\002\b\b\"\037\020\000\032\0020\001*\0020\0028FX\002¢\006\f\n\004\b\005\020\006\032\004\b\003\020\004\"\037\020\007\032\0020\001*\0020\0028FX\002¢\006\f\n\004\b\t\020\006\032\004\b\b\020\004¨\006\n"}, d2 = {"Default", "Lai/grazie/client/ktor/GrazieKtorHTTPClient;", "Lai/grazie/client/ktor/GrazieKtorHTTPClient$Server;", "getDefault", "(Lai/grazie/client/ktor/GrazieKtorHTTPClient$Server;)Lai/grazie/client/ktor/GrazieKtorHTTPClient;", "Default$delegate", "Lkotlin/Lazy;", "WithExtendedTimeout", "getWithExtendedTimeout", "WithExtendedTimeout$delegate", "client-ktor"})
+/*   */ public final class ExtensionsKt {
+/*   */   @NotNull
+/* 6 */   private static final Lazy Default$delegate = LazyKt.lazy(ExtensionsKt$Default$2.INSTANCE); @NotNull public static final GrazieKtorHTTPClient getDefault(@NotNull GrazieKtorHTTPClient.Server $this$Default) { Intrinsics.checkNotNullParameter($this$Default, "<this>"); Lazy lazy = Default$delegate; return (GrazieKtorHTTPClient)lazy.getValue(); } @Metadata(mv = {1, 7, 0}, k = 3, xi = 48, d1 = {"\000\b\n\000\n\002\030\002\n\000\020\000\032\0020\001H\n¢\006\002\b\002"}, d2 = {"<anonymous>", "Lai/grazie/client/ktor/GrazieKtorHTTPClient;", "invoke"}) static final class ExtensionsKt$Default$2 extends Lambda implements Function0<GrazieKtorHTTPClient> { public static final ExtensionsKt$Default$2 INSTANCE = new ExtensionsKt$Default$2(); @NotNull public final GrazieKtorHTTPClient invoke() { return new GrazieKtorHTTPClient(ai.grazie.utils.http.ExtensionsKt.getDefault(JsonKtorHTTPClient.Server.INSTANCE)); } ExtensionsKt$Default$2() { super(0); } }
+/* 7 */    @NotNull private static final Lazy WithExtendedTimeout$delegate = LazyKt.lazy(ExtensionsKt$WithExtendedTimeout$2.INSTANCE); @NotNull public static final GrazieKtorHTTPClient getWithExtendedTimeout(@NotNull GrazieKtorHTTPClient.Server $this$WithExtendedTimeout) { Intrinsics.checkNotNullParameter($this$WithExtendedTimeout, "<this>"); Lazy lazy = WithExtendedTimeout$delegate; return (GrazieKtorHTTPClient)lazy.getValue(); } @Metadata(mv = {1, 7, 0}, k = 3, xi = 48, d1 = {"\000\b\n\000\n\002\030\002\n\000\020\000\032\0020\001H\n¢\006\002\b\002"}, d2 = {"<anonymous>", "Lai/grazie/client/ktor/GrazieKtorHTTPClient;", "invoke"}) static final class ExtensionsKt$WithExtendedTimeout$2 extends Lambda implements Function0<GrazieKtorHTTPClient> { public static final ExtensionsKt$WithExtendedTimeout$2 INSTANCE = new ExtensionsKt$WithExtendedTimeout$2(); ExtensionsKt$WithExtendedTimeout$2() { super(0); } @NotNull public final GrazieKtorHTTPClient invoke() { return new GrazieKtorHTTPClient(ai.grazie.utils.http.ExtensionsKt.getWithExtendedTimeout(JsonKtorHTTPClient.Server.INSTANCE)); }
+/*   */      }
+/*   */ 
+/*   */ }
+
+
+/* Location:              /Volumes/Macintosh HD/Users/phodal/Desktop/ml-llm.jar!/ai/grazie/client/ktor/ExtensionsKt.class
+ * Java compiler version: 17 (61.0)
+ * JD-Core Version:       1.1.3
+ */

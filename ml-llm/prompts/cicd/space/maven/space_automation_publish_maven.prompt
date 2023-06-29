@@ -1,0 +1,26 @@
+Description:
+Create .space.kts file for Space Automation CI for maven project.
+Use container with image "maven:3-openjdk-8-slim".
+Build maven project.
+Publish package to maven repository with version as latest execution number and settings from settings.xml file.
+Set env variable "USERNAME" from space parameters "repo_user".
+Set env variable "USERNAME" from space secrets "repo_password".
+Set env variable "REPOSITORY_URL" to "https://externalrepo.example.com".
+Code:
+job("Build, run tests, publish") {
+    container(displayName = "Run publish script", image = "maven:3-openjdk-8-slim") {
+        env["REPOSITORY_URL"] = "https://externalrepo.example.com"
+        env["USERNAME"] = Params("repo_user")
+        env["PASSWORD"] = Secrets("repo_password")
+
+        shellScript {
+            content = """
+                mvn versions:set -DnewVersion=1.0.${'$'}JB_SPACE_EXECUTION_NUMBER
+                mvn deploy -s settings.xml \
+                    -DrepositoryUrl=${'$'}REPOSITORY_URL \
+                    -DspaceUsername=${'$'}JB_SPACE_CLIENT_ID \
+                    -DspacePassword=${'$'}JB_SPACE_CLIENT_SECRET
+            """
+        }
+    }
+}

@@ -1,0 +1,25 @@
+Description:
+Create .space.kts file for Space Automation CI.
+Run job in default worker pull.
+Set 4 minimum cpu.
+Set 4000 mb minimum memory.
+Code:
+job("Job with requirements") {
+    requirements {
+        resources {
+            minCpu = 4.cpu
+            minMemory = 4000.mb
+        }
+    }
+}
+Description:
+Create .space.kts file for Space Automation CI.
+Run job in Space Automation cloud pool.
+Code:
+job("Job with requirements") {
+    requirements {
+        resources {
+            workerPool = WorkerPools.SPACE_CLOUD
+        }
+    }
+}

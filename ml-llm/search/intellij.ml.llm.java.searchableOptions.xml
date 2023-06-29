@@ -1,0 +1,23 @@
+<options>
+  <configurable id="preferences.keymap" configurable_name="Keymap">
+    <option name="collect" path="ActionManager" hit="Collect Documentation Data" />
+    <option name="data" path="ActionManager" hit="Collect Documentation Data" />
+    <option name="documentation" path="ActionManager" hit="Collect Documentation Data" />
+    <option name="benchmark" path="ActionManager" hit="Run Rename Class Benchmark" />
+    <option name="class" path="ActionManager" hit="Run Rename Class Benchmark" />
+    <option name="rename" path="ActionManager" hit="Run Rename Class Benchmark" />
+    <option name="run" path="ActionManager" hit="Run Rename Class Benchmark" />
+    <option name="benchmark" path="ActionManager" hit="Run Rename Field Benchmark" />
+    <option name="field" path="ActionManager" hit="Run Rename Field Benchmark" />
+    <option name="rename" path="ActionManager" hit="Run Rename Field Benchmark" />
+    <option name="run" path="ActionManager" hit="Run Rename Field Benchmark" />
+    <option name="benchmark" path="ActionManager" hit="Run Rename Method Benchmark" />
+    <option name="method" path="ActionManager" hit="Run Rename Method Benchmark" />
+    <option name="rename" path="ActionManager" hit="Run Rename Method Benchmark" />
+    <option name="run" path="ActionManager" hit="Run Rename Method Benchmark" />
+    <option name="benchmark" path="ActionManager" hit="Run Rename Variable Benchmark" />
+    <option name="rename" path="ActionManager" hit="Run Rename Variable Benchmark" />
+    <option name="run" path="ActionManager" hit="Run Rename Variable Benchmark" />
+    <option name="variable" path="ActionManager" hit="Run Rename Variable Benchmark" />
+  </configurable>
+</options>

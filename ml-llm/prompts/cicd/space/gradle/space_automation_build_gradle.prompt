@@ -1,0 +1,45 @@
+Description:
+Create .space.kts file for Space Automation CI for gradle project.
+Use container with image "amazoncorretto:17-alpine".
+Build and run tests using gradle wrapper.
+Code:
+job("Build and run tests") {
+    gradlew("amazoncorretto:17-alpine", "build")
+}
+Description:
+Create .space.kts file for Space Automation CI for gradle project.
+Use container with image "amazoncorretto:17-alpine".
+Build and run tests using gradle wrapper in space gradle api.
+Code:
+job("Build and run tests") {
+    container(displayName = "Run gradle build", image = "amazoncorretto:17-alpine") {
+        kotlinScript { api ->
+            api.gradlew("build")
+        }
+    }
+}
+Description:
+Create .space.kts file for Space Automation CI for gradle project.
+Use container with image "amazoncorretto:17-alpine".
+Build and run tests using gradle in space gradle api.
+Code:
+job("Build and run tests") {
+    container(displayName = "Run gradle build", image = "amazoncorretto:17-alpine") {
+        kotlinScript { api ->
+            api.gradle("build")
+        }
+    }
+}
+Description:
+Create .space.kts file for Space Automation CI for gradle project.
+Use container with image "amazoncorretto:17-alpine".
+Build and run tests using shell command.
+Run init script "./gradle/init.gradle" before build.
+Code:
+job("Build and run tests") {
+    container(displayName = "Run gradle build", image = "amazoncorretto:17-alpine") {
+        shellScript {
+            content = "gradle build --init-script $mountDir/gradle/init.gradle"
+        }
+    }
+}

@@ -1,0 +1,66 @@
+<idea-plugin package="com.intellij.ml.llm.python">
+  <dependencies>
+    <plugin id="com.intellij.modules.python"/>
+  </dependencies>
+
+  <extensions defaultExtensionNs="com.intellij.ml.llm">
+    <classContextBuilder language="Python"
+                         implementationClass="com.intellij.ml.llm.python.context.PythonClassContextBuilder"/>
+    <methodContextBuilder language="Python"
+                          implementationClass="com.intellij.ml.llm.python.context.PythonMethodContextBuilder"/>
+    <fileContextBuilder language="Python"
+                        implementationClass="com.intellij.ml.llm.python.context.PythonFileContextBuilder"/>
+    <variableContextBuilder language="Python"
+                            implementationClass="com.intellij.ml.llm.python.context.PythonVariableContextBuilder"/>
+    <documentationSupport language="Python" implementationClass="com.intellij.ml.llm.python.LLMPythonDocumentationSupport"/>
+    <nameSuggestionContextProvider language="Python" implementationClass="com.intellij.ml.llm.python.refactorings.PythonNameSuggestionContextProvider"/>
+  </extensions>
+
+  <extensions defaultExtensionNs="com.intellij">
+    <completion.contributor implementationClass="com.intellij.ml.llm.python.completion.LlmPythonNameCompletionContributor"
+                            language="Python"/>
+
+    <localInspection language="Python"
+                     displayName="Verify Python documentation"
+                     shortName="PythonInappropriateDocumentationInspection"
+                     groupPath="Python"
+                     groupBundle="messages.InspectionsBundle"
+                     groupKey="group.names.probable.bugs"
+                     enabledByDefault="false"
+                     level="WARNING"
+                     implementationClass="com.intellij.ml.llm.python.inspections.PythonInappropriateDocumentationInspection"/>
+
+    <localInspection language="Python"
+                     displayName="Generate Python documentation"
+                     shortName="PythonDocGenerationInspection"
+                     groupPath="Python"
+                     groupBundle="messages.LLMBundle"
+                     groupKey="group.names.AI"
+                     enabledByDefault="false"
+                     level="INFORMATION"
+                     implementationClass="com.intellij.ml.llm.python.inspections.PythonDocGenerationInspection"/>
+
+    <chatContextProvider implementation="com.intellij.ml.llm.python.context.PyBaseChatContextProvider"/>
+
+    <!--suppress PluginXmlExtensionRegistration -->
+    <ml.llm.aiAssistantIntention>
+      <className>com.intellij.ml.llm.python.intentions.inline.PythonAddTypeAnnotationsIntention</className>
+      <bundleName>messages.LLMBundle</bundleName>
+      <categoryKey>intention.category.large.language.model</categoryKey>
+    </ml.llm.aiAssistantIntention>
+
+    <!--suppress PluginXmlExtensionRegistration -->
+    <ml.llm.aiAssistantIntention>
+      <className>com.intellij.ml.llm.python.intentions.chat.PythonGenerateTestsChatIntention</className>
+      <bundleName>messages.LLMBundle</bundleName>
+      <categoryKey>intention.category.large.language.model</categoryKey>
+    </ml.llm.aiAssistantIntention>
+
+    <!--suppress PluginXmlExtensionRegistration -->
+    <ml.llm.aiAssistantIntention>
+      <className>com.intellij.ml.llm.python.intentions.inline.PythonCodeCompletionUnderCommentIntention</className>
+      <bundleName>messages.LLMBundle</bundleName>
+      <categoryKey>intention.category.large.language.model</categoryKey>
+    </ml.llm.aiAssistantIntention>
+  </extensions>
+</idea-plugin>

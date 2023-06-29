@@ -1,0 +1,60 @@
+<idea-plugin package="com.intellij.ml.llm.kotlin">
+  <dependencies>
+    <plugin id="org.jetbrains.kotlin"/>
+    <module name="intellij.ml.llm.java"/>
+  </dependencies>
+
+  <extensions defaultExtensionNs="com.intellij">
+    <checkinHandlerFactory
+      implementation="com.intellij.ml.llm.kotlin.commitChecks.VerifyChangedFunctionsDocumentationCheckinHandlerFactory"
+      id="changedFunctionDocumentation"/>
+  </extensions>
+
+  <extensions defaultExtensionNs="com.intellij.ml.llm">
+    <classContextBuilder language="kotlin"
+                         implementationClass="com.intellij.ml.llm.kotlin.context.KotlinClassContextBuilder"/>
+    <methodContextBuilder language="kotlin"
+                          implementationClass="com.intellij.ml.llm.kotlin.context.KotlinMethodContextBuilder"/>
+    <fileContextBuilder language="kotlin"
+                        implementationClass="com.intellij.ml.llm.kotlin.context.KotlinFileContextBuilder"/>
+    <variableContextBuilder language="kotlin"
+                            implementationClass="com.intellij.ml.llm.kotlin.context.KotlinVariableContextBuilder"/>
+    <documentationSupport language="kotlin" implementationClass="com.intellij.ml.llm.kotlin.LLMKotlinDocumentationSupport"/>
+    <nameSuggestionContextProvider language="kotlin" implementationClass="com.intellij.ml.llm.kotlin.refactorings.KotlinNameSuggestionContextProvider"/>
+
+    <!--suppress PluginXmlExtensionRegistration -->
+    <aiAssistantIntention>
+      <className>com.intellij.ml.llm.kotlin.editor.RenameIdentifierIntention</className>
+      <bundleName>messages.LLMBundle</bundleName>
+      <categoryKey>intention.category.large.language.models</categoryKey>
+    </aiAssistantIntention>
+  </extensions>
+
+  <extensions defaultExtensionNs="com.intellij">
+    <chatContextProvider implementation="com.intellij.ml.llm.kotlin.chat.context.KotlinVersionChatContextProvider"/>
+    <localInspection language="kotlin"
+                     displayName="Verify Kotlin documentation"
+                     groupPath="Kotlin"
+                     groupBundle="messages.InspectionsBundle"
+                     groupKey="group.names.probable.bugs"
+                     enabledByDefault="false"
+                     level="WARNING"
+                     implementationClass="com.intellij.ml.llm.kotlin.inspections.KotlinInappropriateDocumentationInspection"/>
+
+    <localInspection language="kotlin"
+                     displayName="Generate Kotlin documentation"
+                     shortName="CheckKotlinDoc"
+                     groupPath="Kotlin"
+                     groupBundle="messages.LLMBundle"
+                     groupKey="group.names.AI"
+                     enabledByDefault="false"
+                     level="INFORMATION"
+                     implementationClass="com.intellij.ml.llm.kotlin.inspections.KotlinDocGenerationInspection"/>
+  </extensions>
+
+  <actions>
+    <action id="EvaluateLLMFeature"
+            class="com.intellij.ml.llm.kotlin.editor.EvaluateFeatureAction"
+            text="[WIP] Evaluate LLM Feature"/>
+  </actions>
+</idea-plugin>

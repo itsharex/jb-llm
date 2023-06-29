@@ -1,0 +1,21 @@
+Description:
+Create .space.kts file for Space Automation CI.
+Use container with name "alpine/curl".
+SOURCE_PATH is path to the build artifact.
+TARGET_PATH is the destination path in the file repository.
+REPO_URL is a repository path.
+Publish artifacts from SOURCE_PATH to TARGET_PATH in repository REPO_URL.
+Code:
+job("Upload artifact") {
+    container("alpine/curl") {
+        shellScript {
+            content = """
+                echo Uploading artifacts...
+                SOURCE_PATH=build-logs/log.txt
+                TARGET_PATH=logs/${'$'}JB_SPACE_EXECUTION_NUMBER/
+                REPO_URL=https://files.pkg.jetbrains.space/mycompany/p/my-project/filesrepo
+                curl -i -H "Authorization: Bearer ${'$'}JB_SPACE_CLIENT_TOKEN" -F file=@"${'$'}SOURCE_PATH" ${'$'}REPO_URL/${'$'}TARGET_PATH
+            """
+        }
+    }
+}

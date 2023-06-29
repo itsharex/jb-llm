@@ -1,0 +1,131 @@
+Description:
+Create .space.kts file for Space Automation CI.
+Trigger on push.
+Code:
+job("Push") {
+    startOn {
+        gitPush {
+            enabled = true
+        }
+    }
+}
+Description:
+Create .space.kts file for Space Automation CI.
+Trigger on push and merge request.
+Code:
+job("Push and pull request") {
+    startOn {
+        gitPush {
+            enabled = true
+        }
+        codeReviewOpened {
+            enabled = true
+        }
+        codeReviewClosed {
+            enabled = true
+        }
+    }
+}
+Description:
+Create .space.kts file for Space Automation CI.
+Trigger on push to branches 'main'.
+Code:
+job("On push to main") {
+    startOn {
+        gitPush {
+            enabled = true
+            branchFilter {
+                +"refs/heads/main"
+            }
+        }
+    }
+}
+Description:
+Create .space.kts file for Space Automation CI.
+Trigger on push to branches 'main' and all 'releases'.
+Code:
+job("On push to releases and main") {
+    startOn {
+        gitPush {
+            enabled = true
+            branchFilter {
+                +"refs/heads/releases/**"
+                +"refs/heads/main"
+            }
+        }
+    }
+}
+Description:
+Create .space.kts file for Space Automation CI.
+Trigger on push to branches all 'releases' except 'latest'.
+Code:
+job("On push to releases and main") {
+    startOn {
+        gitPush {
+            enabled = true
+            branchFilter {
+                +"refs/heads/releases/**"
+                -"refs/heads/releases/latest"
+            }
+        }
+    }
+}
+Description:
+Create .space.kts file for Space Automation CI.
+Trigger on opened or closed pull request to branch 'main' and 'dev'.
+Code:
+job("Pull request to master and dev") {
+    startOn {
+        codeReviewOpened {
+            enabled = true
+        }
+        codeReviewClosed {
+            enabled = true
+        }
+        branchFilter {
+            +"refs/heads/main"
+            +"refs/heads/dev"
+        }
+    }
+}
+Description:
+Create .space.kts file for Space Automation CI.
+Trigger on push to any branch if any kotlin file change.
+Code:
+job("On push") {
+    startOn {
+        gitPush {
+            enabled = true
+            pathFilter {
+                +"**.kt"
+            }
+        }
+    }
+}
+Description:
+Create .space.kts file for Space Automation CI.
+Trigger at 8am every day.
+Code:
+job("On push and pull request") {
+    startOn {
+        gitPush {
+            enabled = true
+        }
+        schedule { cron("0 8 * * *") }
+    }
+}
+Description:
+Create .space.kts file for Space Automation CI.
+Disable job fail on failing tests, zero exit code, out of memory error.
+Enable job fail after 15 min execution
+Code:
+job("Do not fail on failing tests") {
+    failOn {
+        testFailed {  enabled = false  }
+        nonZeroExitCode { enabled = false }
+        outOfMemory { enabled = false }
+        timeOut {
+            runningTimeOutInMinutes = 15
+        }
+    }
+}

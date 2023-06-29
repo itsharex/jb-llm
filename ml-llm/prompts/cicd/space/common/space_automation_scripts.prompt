@@ -1,0 +1,27 @@
+Description:
+Create .space.kts file for Space Automation CI.
+Use container with image "ubuntu".
+Run shell script which prints "Hello World!".
+Code:
+job("Shell script") {
+    container(displayName = "Say Hello", image = "ubuntu") {
+        shellScript {
+            content = "echo Hello World!"
+        }
+    }
+}
+Description:
+Create .space.kts file for Space Automation CI.
+Use container with image "ubuntu".
+Run shell script "./myscript.sh" with "--my-first-arg", "--my-second-arg" arguments.
+Use "/bin/bash" interpreter.
+Code:
+job("Example .sh file") {
+    container(displayName = "Run myscript", image = "ubuntu") {
+        shellScript {
+            interpreter = "/bin/bash"
+            location = "./myscript.sh"
+            args("--my-first-arg", "--my-second-arg")
+        }
+    }
+}

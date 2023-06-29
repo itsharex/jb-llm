@@ -1,0 +1,19 @@
+package ai.grazie.def;
+
+import ai.grazie.text.TextRange;
+import kotlin.Metadata;
+import kotlin.coroutines.Continuation;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
+@Metadata(mv = {1, 7, 0}, k = 1, xi = 48, d1 = {"\000\036\n\002\030\002\n\002\020\000\n\000\n\002\030\002\n\000\n\002\020\016\n\000\n\002\030\002\n\002\b\002\bf\030\0002\0020\001J#\020\002\032\004\030\0010\0032\006\020\004\032\0020\0052\006\020\006\032\0020\007H¦@ø\001\000¢\006\002\020\bø\001\001\002\n\n\002\b\031\n\004\b!0\001¨\006\tÀ\006\001"}, d2 = {"Lai/grazie/def/SuspendableDefinitionService;", "", "define", "Lai/grazie/def/WordDefinition;", "text", "", "interval", "Lai/grazie/text/TextRange;", "(Ljava/lang/String;Lai/grazie/text/TextRange;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;", "model-def"})
+public interface SuspendableDefinitionService {
+  @Nullable
+  Object define(@NotNull String paramString, @NotNull TextRange paramTextRange, @NotNull Continuation<? super WordDefinition> paramContinuation);
+}
+
+
+/* Location:              /Volumes/Macintosh HD/Users/phodal/Desktop/ml-llm.jar!/ai/grazie/def/SuspendableDefinitionService.class
+ * Java compiler version: 17 (61.0)
+ * JD-Core Version:       1.1.3
+ */

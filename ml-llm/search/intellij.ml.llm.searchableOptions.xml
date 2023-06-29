@@ -1,0 +1,93 @@
+<options>
+  <configurable id="preferences.keymap" configurable_name="Keymap">
+    <option name="" path="ActionManager" hit="" />
+    <option name="actions" path="ActionManager" hit="AI Actions..." />
+    <option name="ai" path="ActionManager" hit="AI Actions..." />
+    <option name="ai" path="ActionManager" hit="AI Assistant" />
+    <option name="assistant" path="ActionManager" hit="AI Assistant" />
+    <option name="ai" path="ActionManager" hit="AI Runtime Error Explanation" />
+    <option name="error" path="ActionManager" hit="AI Runtime Error Explanation" />
+    <option name="explanation" path="ActionManager" hit="AI Runtime Error Explanation" />
+    <option name="runtime" path="ActionManager" hit="AI Runtime Error Explanation" />
+    <option name="clipboard" path="ActionManager" hit="Copy to Clipboard" />
+    <option name="copy" path="ActionManager" hit="Copy to Clipboard" />
+    <option name="to" path="ActionManager" hit="Copy to Clipboard" />
+    <option name="all" path="ActionManager" hit="Delete All Chats" />
+    <option name="chats" path="ActionManager" hit="Delete All Chats" />
+    <option name="delete" path="ActionManager" hit="Delete All Chats" />
+    <option name="chat" path="ActionManager" hit="Delete Chat" />
+    <option name="delete" path="ActionManager" hit="Delete Chat" />
+    <option name="dislike" path="ActionManager" hit="Dislike this response" />
+    <option name="response" path="ActionManager" hit="Dislike this response" />
+    <option name="this" path="ActionManager" hit="Dislike this response" />
+    <option name="chat" path="ActionManager" hit="Dump Chat" />
+    <option name="dump" path="ActionManager" hit="Dump Chat" />
+    <option name="edit" path="ActionManager" hit="Edit" />
+    <option name="a" path="ActionManager" hit="Explain a runtime error log with AI" />
+    <option name="ai" path="ActionManager" hit="Explain a runtime error log with AI" />
+    <option name="error" path="ActionManager" hit="Explain a runtime error log with AI" />
+    <option name="explain" path="ActionManager" hit="Explain a runtime error log with AI" />
+    <option name="log" path="ActionManager" hit="Explain a runtime error log with AI" />
+    <option name="runtime" path="ActionManager" hit="Explain a runtime error log with AI" />
+    <option name="with" path="ActionManager" hit="Explain a runtime error log with AI" />
+    <option name="ai" path="ActionManager" hit="Generate Commit Message with AI Assistant" />
+    <option name="assistant" path="ActionManager" hit="Generate Commit Message with AI Assistant" />
+    <option name="commit" path="ActionManager" hit="Generate Commit Message with AI Assistant" />
+    <option name="generate" path="ActionManager" hit="Generate Commit Message with AI Assistant" />
+    <option name="message" path="ActionManager" hit="Generate Commit Message with AI Assistant" />
+    <option name="with" path="ActionManager" hit="Generate Commit Message with AI Assistant" />
+    <option name="at" path="ActionManager" hit="Insert Snippet at Caret" />
+    <option name="caret" path="ActionManager" hit="Insert Snippet at Caret" />
+    <option name="insert" path="ActionManager" hit="Insert Snippet at Caret" />
+    <option name="snippet" path="ActionManager" hit="Insert Snippet at Caret" />
+    <option name="like" path="ActionManager" hit="Like this response" />
+    <option name="response" path="ActionManager" hit="Like this response" />
+    <option name="this" path="ActionManager" hit="Like this response" />
+    <option name="chat" path="ActionManager" hit="Remove Chat" />
+    <option name="remove" path="ActionManager" hit="Remove Chat" />
+    <option name="chat" path="ActionManager" hit="Rename Chat" />
+    <option name="rename" path="ActionManager" hit="Rename Chat" />
+    <option name="settings" path="ActionManager" hit="Settings..." />
+  </configurable>
+  <configurable id="ml.llm.LLMConfigurable" configurable_name="AI Assistant">
+    <option name="ai" hit="AI Assistant" />
+    <option name="assistant" hit="AI Assistant" />
+    <option name="cancel" hit="Cancel" />
+    <option name="features" hit="Features" />
+    <option name="browser" hit="Go to browser to complete signing in" />
+    <option name="complete" hit="Go to browser to complete signing in" />
+    <option name="go" hit="Go to browser to complete signing in" />
+    <option name="in" hit="Go to browser to complete signing in" />
+    <option name="signing" hit="Go to browser to complete signing in" />
+    <option name="to" hit="Go to browser to complete signing in" />
+    <option name="log" hit="Log Out" />
+    <option name="out" hit="Log Out" />
+    <option name="ai" hit="Log in to JetBrains AI" />
+    <option name="in" hit="Log in to JetBrains AI" />
+    <option name="jetbrains" hit="Log in to JetBrains AI" />
+    <option name="log" hit="Log in to JetBrains AI" />
+    <option name="to" hit="Log in to JetBrains AI" />
+    <option name="ai-generated" hit="Provide AI-generated name suggestions" />
+    <option name="name" hit="Provide AI-generated name suggestions" />
+    <option name="provide" hit="Provide AI-generated name suggestions" />
+    <option name="suggestions" hit="Provide AI-generated name suggestions" />
+    <option name="show" hit="Show token" />
+    <option name="token" hit="Show token" />
+    <option name="ai" hit="You're logged in to JetBrains AI" />
+    <option name="in" hit="You're logged in to JetBrains AI" />
+    <option name="jetbrains" hit="You're logged in to JetBrains AI" />
+    <option name="logged" hit="You're logged in to JetBrains AI" />
+    <option name="re" hit="You're logged in to JetBrains AI" />
+    <option name="to" hit="You're logged in to JetBrains AI" />
+    <option name="you" hit="You're logged in to JetBrains AI" />
+  </configurable>
+  <configurable id="ml.llm.LLMDataSharingConfigurable" configurable_name="Data Sharing">
+    <option name="data" hit="Data Sharing" />
+    <option name="sharing" hit="Data Sharing" />
+    <option name="ai" hit="Send AI Assistant usage statistics" />
+    <option name="assistant" hit="Send AI Assistant usage statistics" />
+    <option name="send" hit="Send AI Assistant usage statistics" />
+    <option name="statistics" hit="Send AI Assistant usage statistics" />
+    <option name="usage" hit="Send AI Assistant usage statistics" />
+  </configurable>
+</options>

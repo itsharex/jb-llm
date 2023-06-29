@@ -1,0 +1,12 @@
+Description:
+Create .space.kts file for Space Automation CI for maven project.
+Use container with image "maven:latest".
+Build and run tests.
+Code:
+job("Build and run tests") {
+    container(displayName = "Run mvn install", image = "maven:latest") {
+        shellScript {
+            content = "mvn clean install"
+        }
+    }
+}

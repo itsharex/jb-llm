@@ -1,0 +1,41 @@
+Description:
+Create .space.kts file for Space Automation CI.
+Create container with image "gradle:jdk11" and name "Run build".
+In "Run build" container build and run tests in gradle project using gradle api.
+Create container with image "gradle:jdk11" and name "Run mainTests".
+In "Run mainTests" container run "mainTests" command using gradle api.
+Create container with image "gradle:jdk11" and name "Generate data".
+In "Generate data" container run "generateTestData" command using gradle api.
+Create container with image "gradle:jdk11" and name "Run integration tests".
+In "Run integration tests" container run "integrationTests" command using gradle api.
+Run "generateTestData" and "integrationTests" commands sequentially.
+Run command "mainTests" parallel with "generateTestData" and "integrationTests" commands.
+Code:
+job("Build and run tests") {
+    container(displayName = "Run build", image = "gradle:jdk11") {
+        kotlinScript { api ->
+            api.gradle("build", "-x", "test")
+        }
+   }
+
+   parallel {
+       container(displayName = "Run mainTests", image = "gradle:jdk11") {
+           kotlinScript { api ->
+               api.gradle("mainTests")
+           }
+       }
+
+       sequential {
+           container(displayName = "Generate data", image = "gradle:jdk11") {
+               kotlinScript { api ->
+                   api.gradle("generateTestData")
+               }
+           }
+           container(displayName = "Run integration tests", image = "gradle:jdk11") {
+               kotlinScript { api ->
+                   api.gradle("integrationTests")
+               }
+           }
+       }
+   }
+}

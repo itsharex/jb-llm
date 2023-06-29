@@ -1,0 +1,19 @@
+Description:
+Create .space.kts file for Space Automation CI for nmp project.
+Use container with image "node:14-alpine".
+Install npm dependencies.
+Run build if it exists in package.json.
+Run tests.
+Code:
+job("Build npm project and run test") {
+    container(displayName = "Build and run test script", image = "node:14-alpine") {
+        shellScript {
+            interpreter = "/bin/sh"
+            content = """
+                npm ci
+                npm run build --if-present
+                npm run test
+            """
+        }
+    }
+}
