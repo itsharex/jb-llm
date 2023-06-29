@@ -1,18 +1,354 @@
-<!-- Plugin Configuration File. Read more: https://plugins.jetbrains.com/docs/intellij/plugin-configuration-file.html -->
-<idea-plugin>
-    <id>com.github.phodal.jbllm</id>
-    <name>jb-llm Template</name>
-    <vendor>phodal</vendor>
+<idea-plugin package="com.intellij.ml.llm">
+  <id>com.intellij.ml.llm</id>
+  <version>232.8296.17</version>
+  <idea-version since-build="232.8296.17" until-build="232.8296.17"/>
+  <name>AI Assistant</name>
+  <vendor>JetBrains</vendor>
+  <description><![CDATA[
+  Provides AI-powered assistance based on the JetBrains AI service.
+  <ul>
+    <li>AI Assistant tool window for AI chat</li>
+    <li>AI Actions menu for AI-powered actions in the editor</li>
+    <li>AI-generated commit message summaries and declaration name suggestions</li>
+  </ul>
+  ]]></description>
 
-    <depends>com.intellij.modules.platform</depends>
+  <content>
+    <module name="intellij.ml.llm.java"/>
+    <module name="intellij.ml.llm.kotlin"/>
+    <module name="intellij.ml.llm.python"/>
+    <module name="intellij.ml.llm.performanceTesting"/>
+  </content>
 
-    <resource-bundle>messages.MyBundle</resource-bundle>
+  <dependencies>
+    <plugin id="org.jetbrains.plugins.yaml"/>
+    <plugin id="org.intellij.plugins.markdown"/>
+    <plugin id="Git4Idea"/>
+  </dependencies>
 
-    <extensions defaultExtensionNs="com.intellij">
-        <toolWindow factoryClass="com.github.phodal.jbllm.toolWindow.MyToolWindowFactory" id="MyToolWindow"/>
-    </extensions>
+  <resource-bundle>messages.LLMBundle</resource-bundle>
 
-    <applicationListeners>
-        <listener class="com.github.phodal.jbllm.listeners.MyApplicationActivationListener" topic="com.intellij.openapi.application.ApplicationActivationListener"/>
-    </applicationListeners>
+  <extensionPoints>
+    <extensionPoint qualifiedName="com.intellij.assistantMessageLayouter"
+                    interface="com.intellij.ml.llm.core.chat.layout.AIMessageCharProcessor"
+                    dynamic="true"/>
+    <extensionPoint qualifiedName="com.intellij.chatContextProvider"
+                    interface="com.intellij.ml.llm.core.chat.context.ChatContextProvider"
+                    dynamic="true"/>
+    <extensionPoint qualifiedName="com.intellij.chatCodeSnippetProvider"
+                    interface="com.intellij.ml.llm.core.chat.snippets.CodeSnippetProvider"
+                    dynamic="true"/>
+    <extensionPoint qualifiedName="com.intellij.chatMessageHandler"
+                    interface="com.intellij.ml.llm.core.chat.session.ChatMessageHandler"
+                    dynamic="true"/>
+    <extensionPoint qualifiedName="com.intellij.ml.llm.core.optionsApplicabilityFilter"
+                    interface="com.intellij.ml.llm.core.settings.LLMOptionsApplicabilityFilter"
+                    dynamic="true"/>
+
+    <extensionPoint name="classContextBuilder" beanClass="com.intellij.lang.LanguageExtensionPoint" dynamic="true">
+      <with attribute="implementationClass"
+            implements="com.intellij.ml.llm.context.classbuilder.ClassContextBuilder"/>
+    </extensionPoint>
+    <extensionPoint name="methodContextBuilder" beanClass="com.intellij.lang.LanguageExtensionPoint" dynamic="true">
+      <with attribute="implementationClass"
+            implements="com.intellij.ml.llm.context.methodbuilder.MethodContextBuilder"/>
+    </extensionPoint>
+    <extensionPoint name="fileContextBuilder" beanClass="com.intellij.lang.LanguageExtensionPoint" dynamic="true">
+      <with attribute="implementationClass"
+            implements="com.intellij.ml.llm.context.filebuilder.FileContextBuilder"/>
+    </extensionPoint>
+    <extensionPoint name="variableContextBuilder" beanClass="com.intellij.lang.LanguageExtensionPoint" dynamic="true">
+      <with attribute="implementationClass"
+            implements="com.intellij.ml.llm.context.variablebuilder.VariableContextBuilder"/>
+    </extensionPoint>
+    <extensionPoint name="aiAssistantIntention" beanClass="com.intellij.codeInsight.intention.IntentionActionBean" dynamic="true">
+      <with tag="className" implements="com.intellij.codeInsight.intention.IntentionAction"/>
+    </extensionPoint>
+
+    <extensionPoint name="documentationSupport" beanClass="com.intellij.lang.LanguageExtensionPoint" dynamic="true">
+      <with attribute="implementationClass" implements="com.intellij.ml.llm.core.LLMDocumentationSupport"/>
+    </extensionPoint>
+    <extensionPoint name="nameSuggestionContextProvider" beanClass="com.intellij.lang.LanguageExtensionPoint" dynamic="true">
+      <with attribute="implementationClass"
+            implements="com.intellij.ml.llm.core.refactoring.NameSuggestionContextProvider"/>
+    </extensionPoint>
+  </extensionPoints>
+
+  <extensions defaultExtensionNs="com.intellij">
+    <postStartupActivity implementation="com.intellij.ml.llm.refactorings.LlmLookupManagerListener$StartupActivity"/>
+
+    <assistantMessageLayouter implementation="com.intellij.ml.llm.core.chat.layout.AIMessageCodeBlockCharProcessor" order="first"/>
+
+    <toolWindow id="AIAssistant"
+                anchor="right"
+                largeStripeAnchor="right"
+                factoryClass="com.intellij.ml.llm.core.chat.AIAssistantToolWindowFactory"
+                icon="com.intellij.ml.llm.MLLlmIcons.AiAssistantToolWindow"
+                secondary="false"
+    />
+
+    <notificationGroup id="AI notification group" displayType="STICKY_BALLOON" bundle="messages.LLMBundle"
+                       key="notification.group.name"/>
+
+    <statistic.eventLog.eventLoggerProvider implementation="com.intellij.ml.llm.core.statistics.llmc.LLMEventLoggerProvider"/>
+    <statistics.counterUsagesCollector implementationClass="com.intellij.ml.llm.core.statistics.llmc.LLMEventLogger"/>
+    <statistics.counterUsagesCollector implementationClass="com.intellij.ml.llm.core.statistics.llmc.LLMChatEventsLogger"/>
+    <statistics.validation.customValidationRule implementation="com.intellij.ml.llm.core.statistics.llmc.TrueValidationRule"/>
+    <statistics.counterUsagesCollector implementationClass="com.intellij.ml.llm.core.statistics.fus.AIAssistantChatEventLogger"/>
+    <statistics.counterUsagesCollector implementationClass="com.intellij.ml.llm.core.statistics.fus.AIAssistantEventLogger"/>
+
+    <highlightErrorFilter implementation="com.intellij.ml.llm.core.chat.ui.ChatHighlightErrorFilter"/>
+    <daemon.highlightInfoFilter implementation="com.intellij.ml.llm.core.chat.snippets.ChatHighlightingFilter"/>
+    <defaultHighlightingSettingProvider implementation="com.intellij.ml.llm.core.chat.ui.ChatHighlightingSettingsProvider"/>
+    <daemon.intentionActionFilter implementation="com.intellij.ml.llm.core.chat.ui.AIAssistantIntentionActionFilter"/>
+
+    <copyPastePostProcessor implementation="com.intellij.ml.llm.core.chat.services.paste.CodeSnippetCopyPastePostProcessor"/>
+    <typingActionsExtension implementation="com.intellij.ml.llm.core.chat.services.paste.CodeSnippetPasteCaretMover"/>
+
+    <chatContextProvider implementation="com.intellij.ml.llm.core.chat.context.providers.EnvironmentChatContextProvider"/>
+    <chatContextProvider implementation="com.intellij.ml.llm.core.chat.context.providers.CodeOfConductChatContextProvider"/>
+    <chatContextProvider implementation="com.intellij.ml.llm.core.chat.context.providers.DomainAreaChatContextProvider"/>
+    <chatContextProvider implementation="com.intellij.ml.llm.core.chat.context.providers.IdentityGuardChatContextProvider"/>
+    <chatContextProvider implementation="com.intellij.ml.llm.core.chat.context.providers.ReplyFormatChatContextProvider"/>
+    <chatContextProvider implementation="com.intellij.ml.llm.core.chat.context.providers.RoleChatContextProvider"/>
+
+    <!--suppress PluginXmlValidity -->
+    <inline.completion.provider implementation="com.intellij.ml.llm.completion.inline.LLMInlineCompletionProvider"/>
+
+    <enterHandlerDelegate implementation="com.intellij.ml.llm.inspections.EnterEmptyDocumentationHandler"/>
+
+    <projectConfigurable
+      groupId="tools"
+      instance="com.intellij.ml.llm.core.settings.LLMConfigurable"
+      id="ml.llm.LLMConfigurable"
+      bundle="messages.LLMBundle"
+      key="settings.configurable.display.name"/>
+    <projectConfigurable
+      groupId="ml.llm.LLMConfigurable"
+      instance="com.intellij.ml.llm.core.settings.LLMDataSharingConfigurable"
+      id="ml.llm.LLMDataSharingConfigurable"
+      bundle="messages.LLMBundle"
+      key="settings.configurable.data.sharing.display.name"/>
+    <httpRequestHandler implementation="com.intellij.ml.llm.core.grazieAPI.GrazieAuthRestService"/>
+    <iconMapper mappingFile="LLMIconMappings.json"/>
+
+    <!--suppress PluginXmlExtensionRegistration -->
+    <ml.llm.aiAssistantIntention>
+      <className>com.intellij.ml.llm.intentions.internal.editor.CodeCompletionIntention</className>
+      <bundleName>messages.LLMBundle</bundleName>
+      <categoryKey>intention.category.large.language.models</categoryKey>
+    </ml.llm.aiAssistantIntention>
+
+    <!--suppress PluginXmlExtensionRegistration -->
+    <ml.llm.aiAssistantIntention>
+      <className>com.intellij.ml.llm.intentions.internal.editor.FixCodeIntention</className>
+      <bundleName>messages.LLMBundle</bundleName>
+      <categoryKey>intention.category.large.language.models</categoryKey>
+    </ml.llm.aiAssistantIntention>
+    <!--suppress PluginXmlExtensionRegistration -->
+    <ml.llm.aiAssistantIntention>
+      <className>com.intellij.ml.llm.intentions.editor.WriteDocumentationIntention</className>
+      <bundleName>messages.LLMBundle</bundleName>
+      <categoryKey>intention.category.large.language.models</categoryKey>
+    </ml.llm.aiAssistantIntention>
+
+    <!--suppress PluginXmlExtensionRegistration -->
+    <ml.llm.aiAssistantIntention>
+      <className>com.intellij.ml.llm.intentions.internal.editor.ApplyCustomEditIntention</className>
+      <bundleName>messages.LLMBundle</bundleName>
+      <categoryKey>intention.category.large.language.models</categoryKey>
+    </ml.llm.aiAssistantIntention>
+
+    <ml.llm.aiAssistantIntention>
+      <className>com.intellij.ml.llm.intentions.internal.editor.RefactorThisIntention</className>
+      <bundleName>messages.LLMBundle</bundleName>
+      <categoryKey>intention.category.large.language.models</categoryKey>
+    </ml.llm.aiAssistantIntention>
+
+    <!--suppress PluginXmlExtensionRegistration -->
+    <ml.llm.aiAssistantIntention>
+      <className>com.intellij.ml.llm.intentions.chat.CustomChatIntention</className>
+      <bundleName>messages.LLMBundle</bundleName>
+      <categoryKey>intention.category.large.language.models</categoryKey>
+    </ml.llm.aiAssistantIntention>
+
+    <!--suppress PluginXmlExtensionRegistration -->
+    <ml.llm.aiAssistantIntention>
+      <className>com.intellij.ml.llm.intentions.chat.ExplainCodeChatIntention</className>
+      <bundleName>messages.LLMBundle</bundleName>
+      <categoryKey>intention.category.large.language.models</categoryKey>
+    </ml.llm.aiAssistantIntention>
+
+    <!--suppress PluginXmlExtensionRegistration -->
+    <ml.llm.aiAssistantIntention>
+      <className>com.intellij.ml.llm.intentions.internal.chat.OptimizeCodeChatIntention</className>
+      <bundleName>messages.LLMBundle</bundleName>
+      <categoryKey>intention.category.large.language.models</categoryKey>
+    </ml.llm.aiAssistantIntention>
+
+    <!--suppress PluginXmlExtensionRegistration -->
+    <ml.llm.aiAssistantIntention>
+      <className>com.intellij.ml.llm.intentions.chat.RefactorCodeChatIntention</className>
+      <bundleName>messages.LLMBundle</bundleName>
+      <categoryKey>intention.category.large.language.models</categoryKey>
+    </ml.llm.aiAssistantIntention>
+
+    <!--suppress PluginXmlExtensionRegistration -->
+    <ml.llm.aiAssistantIntention>
+      <className>com.intellij.ml.llm.intentions.internal.chat.MethodsOrderCodeChatIntention</className>
+      <bundleName>messages.LLMBundle</bundleName>
+      <categoryKey>intention.category.large.language.models</categoryKey>
+    </ml.llm.aiAssistantIntention>
+
+    <!--suppress PluginXmlExtensionRegistration -->
+    <ml.llm.aiAssistantIntention>
+      <className>com.intellij.ml.llm.intentions.chat.FindProblemsInCodeChatIntention</className>
+      <bundleName>messages.LLMBundle</bundleName>
+      <categoryKey>intention.category.large.language.models</categoryKey>
+    </ml.llm.aiAssistantIntention>
+
+    <ml.llm.aiAssistantIntention>
+      <className>com.intellij.ml.llm.intentions.editor.WriteExplanationIntention</className>
+      <bundleName>messages.LLMBundle</bundleName>
+      <categoryKey>intention.category.large.language.models</categoryKey>
+    </ml.llm.aiAssistantIntention>
+
+    <intentionAction>
+      <className>com.intellij.ml.llm.intentions.chat.AIAssistantIntention</className>
+      <bundleName>messages.LLMBundle</bundleName>
+      <categoryKey>intention.category.large.language.models</categoryKey>
+      <skipBeforeAfter>true</skipBeforeAfter>
+    </intentionAction>
+
+    <registryKey key="llm.is.internal"
+                 defaultValue="false"
+                 description="Enable internal features for developers of LLM for Code plugin"/>
+    <registryKey key="llm.is.inline.completion.enabled"
+                 defaultValue="false"
+                 description="Enables internal inline completion feature"/>
+    <registryKey key="llm.is.code.streaming.enabled"
+                 defaultValue="true"
+                 description="Enables code streaming in AI Assistant code actions"/>
+    <registryKey key="llm.for.code.enable.mock.requests"
+                 defaultValue="false"
+                 description="If enabled, emulates requests instead of using Cloud LLM. Used for debug purposes."/>
+    <registryKey key="llm.for.code.enable.name.suggestion.get.dataset"
+                 defaultValue="false"
+                 description="If enabled, integration tests for name suggestion intention are running."/>
+    <registryKey key="llm.streaming.enabled"
+                 defaultValue="true"
+                 description="If enabled, llm responses is streamed token by token if supported."/>
+
+    <registryKey key="llm.fix.problems.in.selected.fragment"
+                 defaultValue="false"
+                 description="Adds an action onto the floating toolbar that fixes detected problems in the selected code fragment."
+                 restartRequired="false"/>
+    <!--
+    <toolWindow id="Generate CI/CD config" anchor="right"
+                icon="com.intellij.icons.AllIcons.FileTypes.Config"
+                factoryClass="com.intellij.ml.llm.cicd.labelling.LLMLabellingToolWindowFactory"
+                doNotActivateOnStart="false"/>
+    -->
+
+    <projectService serviceImplementation="com.intellij.ml.llm.intentions.internal.editor.EmptyIntentionProviderManager"/>
+    <emptyIntentionProvider implementation="com.intellij.ml.llm.intentions.internal.editor.EmptyIntentionAIProvider"/>
+    <nameSuggestionProvider implementation="com.intellij.ml.llm.refactorings.DefaultNameSuggestionProvider"/>
+  </extensions>
+
+  <actions>
+    <action internal="true" id="LLMCompletionAction" class="com.intellij.ml.llm.completion.intention.LLMCompletionInternalAction"/>
+    <action internal="true" id="ConsoleChatAction" class="com.intellij.ml.llm.consoleChat.ConsoleChatAction"/>
+
+    <group id="IntentionsActionGroup" class="com.intellij.ml.llm.intentions.editor.IntentionsActionGroup"
+           icon="com.intellij.ml.llm.MLLlmIcons.AiAssistant">
+      <add-to-group group-id="ShowIntentionsGroup" relative-to-action="ShowIntentionActions" anchor="after"/>
+      <add-to-group group-id="Floating.CodeToolbar" anchor="before" relative-to-action="Floating.CodeToolbar.Configure"/>
+    </group>
+
+    <!--
+    <action id="com.intellij.ml.llm.cicd.gen.CiConfigGenerationAction"
+            class="com.intellij.ml.llm.cicd.gen.CiConfigGenerationAction"
+            text="AI: generate CI/CD config"
+            description="Generate CI/CD configuration file by natural language description using AI">
+      <add-to-group group-id="ToolsMenu" anchor="last"/>
+    </action>
+    -->
+
+    <action id="Vcs.LLMCommitMessageAction"
+            class="com.intellij.ml.llm.vcs.LLMCommitMessageAction"
+            icon="com.intellij.ml.llm.MLLlmIcons.AiAssistant">
+      <add-to-group group-id="Vcs.MessageActionGroup"/>
+    </action>
+
+    <action id="TracebackExplanationAction" class="com.intellij.ml.llm.runtimeErrorExplanation.RuntimeErrorExplanationAction">
+      <add-to-group group-id="RunTab.TopToolbar" anchor="last"/>
+      <add-to-group group-id="RunTab.TopToolbar.Old" anchor="last"/>
+    </action>
+
+    <action id="AIAssistant.ToolWindow.Chat.Message.User.Message.Edit"
+            class="com.intellij.ml.llm.core.chat.actions.message.AIAssistantEditMessageAction"
+            icon="AllIcons.Actions.Edit"/>
+    <group id="AIAssistant.ToolWindow.Chat.TitleActions">
+      <action id="AIAssistant.ToolWindow.AllChatsAction" class="com.intellij.ml.llm.core.chat.actions.toolbar.AIAssistantAllChatsAction"/>
+      <action id="AIAssistant.ToolWindow.NewChatAction" class="com.intellij.ml.llm.core.chat.actions.toolbar.AIAssistantNewChatAction"/>
+    </group>
+    <group id="AIAssistant.ToolWindow.List.ContextActions">
+      <action id="AIAssistant.ToolWindow.RemoveDialog"
+              icon="AllIcons.Vcs.Remove"
+              class="com.intellij.ml.llm.core.chat.actions.chat.AIAssistantListDeleteChat"/>
+    </group>
+    <group id="AIAssistant.ToolWindow.Chat.Message.User.ContextActions">
+      <reference id="AIAssistant.ToolWindow.Chat.Message.User.Message.Edit"/>
+    </group>
+
+    <group id="AIAssistant.ToolWindow.Snippet.Toolbar">
+      <action id="AIAssistant.ToolWindow.Snippet.LanguageLabelAction"
+              class="com.intellij.ml.llm.core.chat.actions.codeSnippet.AIAssistantLanguageLabelAction"/>
+      <action id="AIAssistant.ToolWindow.Snippet.CopyToClipboard"
+              icon="AllIcons.Actions.Copy"
+              class="com.intellij.ml.llm.core.chat.actions.codeSnippet.AIAssistantCopyToClipboardAction"/>
+      <action id="AIAssistant.ToolWindow.Snippet.InsertAtCaret"
+              icon="com.intellij.ml.llm.MLLlmIcons.SendToEditor"
+              class="com.intellij.ml.llm.core.chat.actions.codeSnippet.AIAssistantInsertAtCaretAction"/>
+    </group>
+
+    <group id="AIAssistant.ToolWindow.Message.Toolbar.Assistant">
+      <action id="AIAssistant.ToolWindow.Message.Like"
+              class="com.intellij.ml.llm.core.chat.actions.message.AIAssistantRateMessageAction$Like"/>
+      <action id="AIAssistant.ToolWindow.Message.Dislike"
+              class="com.intellij.ml.llm.core.chat.actions.message.AIAssistantRateMessageAction$Dislike"/>
+    </group>
+
+    <group id="AIAssistant.ToolWindow.Message.Toolbar.User">
+      <group popup="true" class="com.intellij.openapi.actionSystem.impl.MoreActionGroup">
+        <reference id="AIAssistant.ToolWindow.Chat.Message.User.Message.Edit"/>
+      </group>
+    </group>
+
+    <group id="AIAssistant.ToolWindow.Chat.SecondaryGearActions">
+      <action id="AIAssistant.ToolWindow.Chat.DeleteAll"
+              class="com.intellij.ml.llm.core.chat.actions.list.AIAssistantDeleteAllChats"/>
+      <action id="AIAssistant.ToolWindow.Chat.Rename"
+              class="com.intellij.ml.llm.core.chat.actions.chat.AIAssistantRenameChat"/>
+      <action id="AIAssistant.ToolWindow.Chat.Dump"
+              class="com.intellij.ml.llm.core.chat.actions.chat.AIAssistantDumpChat"/>
+      <action id="AIAssistant.ToolWindow.Chat.Delete"
+              class="com.intellij.ml.llm.core.chat.actions.chat.AIAssistantDeleteChat"/>
+      <separator/>
+      <action id="AIAssistant.LLMSettings"
+              class="com.intellij.ml.llm.core.chat.actions.AIAssistantOpenSettingsAction"/>
+    </group>
+
+    <group id="AIAssistant.ToolsDropdown">
+      <action id="AIAssistant.ToolWindow.ShowOrFocus"
+              class="com.intellij.ml.llm.core.chat.actions.AIAssistantShowChatAction"/>
+      <separator/>
+      <add-to-group group-id="ToolsMenu" anchor="first"/>
+    </group>
+  </actions>
+
+  <projectListeners>
+    <listener class="com.intellij.ml.llm.core.chat.AIAssistantToolWindowFocusActivator"
+              topic="com.intellij.openapi.wm.ex.ToolWindowManagerListener"/>
+  </projectListeners>
 </idea-plugin>
